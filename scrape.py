@@ -106,9 +106,6 @@ def get_ratings(url: str) -> Optional[float]:
 
     raise ValueError(f"No ratings found on {url}")
 
-# TODO: Store this stuff locally, have a Luigi task or sth so we're not constantly re-pulling same data.
-# (But then how do we tell whether there's been an update? Count of ratings maybe?)
-
 sources = {
     "AOC": {
         "https://app.thestorygraph.com/books/70962fbf-178f-40f5-882d-510a9f46c70e": "Parable of the Sower",
@@ -166,8 +163,5 @@ for measure in ("Count", "Normed CW Count"):
     ax = sns.swarmplot(x=measure, y="Cohort", data=npb, color=".2")
     savename = measure.replace(" ", "-")
     plt.savefig(f"{savename}.png")
-
-# TODO
-# - statistical comparisons over sets of books (not just viz)
 
 import pdb; pdb.set_trace()
