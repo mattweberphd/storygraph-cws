@@ -9,10 +9,12 @@ import requests
 import seaborn as sns
 from bs4 import BeautifulSoup
 
+
 class BadContentWarningError(ValueError):
     """
     Error for content warnings that fail parse_cw()
     """
+
     pass
 
 
@@ -106,6 +108,7 @@ def get_ratings(url: str) -> Optional[float]:
 
     raise ValueError(f"No ratings found on {url}")
 
+
 sources = {
     "AOC": {
         "https://app.thestorygraph.com/books/70962fbf-178f-40f5-882d-510a9f46c70e": "Parable of the Sower",
@@ -117,7 +120,7 @@ sources = {
         "https://app.thestorygraph.com/books/fa5eab26-ad2c-4fbf-9bdd-a220d763cb03": "Who Fears Death",
         "https://app.thestorygraph.com/books/6faea454-48af-4b54-b4ec-71c08055c4ba": "Brown Girl in the Ring",
         "https://app.thestorygraph.com/books/44f77705-feb2-4d46-b68a-192a7c46d9fe": "Version Control",
-        "https://app.thestorygraph.com/books/00dcca82-4ede-4700-880b-bc839cf11cc6": "The Hundred Thousand Kingdoms"
+        "https://app.thestorygraph.com/books/00dcca82-4ede-4700-880b-bc839cf11cc6": "The Hundred Thousand Kingdoms",
     },
     "AOW": {
         "https://app.thestorygraph.com/books/3a94ec7e-55c3-49d3-bb10-09e806eea299": "A Game of Thrones",
@@ -129,8 +132,8 @@ sources = {
         "https://app.thestorygraph.com/books/0df3f760-2c94-440b-9299-7ced9100027b": "Upright Women Wanted",
         "https://app.thestorygraph.com/books/4319278a-e266-41e0-9355-5515429d5df3": "A Wizard of Earthsea",
         "https://app.thestorygraph.com/books/ed0a2053-0859-46d3-bbc0-450101fa6060": "Deathless",
-        "https://app.thestorygraph.com/books/c8ebb6f7-991e-4598-b3f5-ed65bede625f": "The Atrocity Archive"
-    }
+        "https://app.thestorygraph.com/books/c8ebb6f7-991e-4598-b3f5-ed65bede625f": "The Atrocity Archive",
+    },
 }
 
 logging.basicConfig(level=logging.DEBUG)
@@ -156,7 +159,9 @@ df = pd.concat(dfs)
 
 df["Normed CW count"] = df["Count"] / df["Reviews"]
 
-npb = df.groupby("Title").aggregate({"Count": np.sum, "Normed CW count": np.sum, "Cohort": np.max})
+npb = df.groupby("Title").aggregate(
+    {"Count": np.sum, "Normed CW count": np.sum, "Cohort": np.max}
+)
 
 for measure in ("Count", "Normed CW Count"):
     ax = sns.boxplot(x=measure, y="Cohort", data=npb, whis=np.inf, palette="pastel")
@@ -164,4 +169,6 @@ for measure in ("Count", "Normed CW Count"):
     savename = measure.replace(" ", "-")
     plt.savefig(f"{savename}.png")
 
-import pdb; pdb.set_trace()
+import pdb
+
+pdb.set_trace()
